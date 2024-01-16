@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Homework_4
 {
@@ -20,11 +21,37 @@ namespace Homework_4
             //Задайте массив заполненный случайными трёхзначными числами.
             //Напишите программу, которая покажет количество чётных чисел в массиве.
 
-            Finding_Even_Numbers();
+            //Finding_Even_Numbers();
 
             #endregion
 
-            Console.ReadKey();
+            #region Реверс одномерного массива
+
+            //Напишите программу, которая перевернёт одномерный массив
+            //(первый элемент станет последним, второй – предпоследним и т.д.)
+
+            Revers_array();
+
+            #endregion
+
+        }
+
+        private static void Revers_array()
+        {
+            Greetings("Привет. Давай перевернем одномерный массив");
+
+            int[] array = Fill_array(0, 10);
+
+            Read_array(array);
+
+            int[] revers_array = new int[array.Length];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                revers_array[array.Length - i - 1] = array[i];
+            }
+
+            Read_array(revers_array);
 
         }
 
@@ -38,18 +65,26 @@ namespace Homework_4
 
             int evenCount = 0;
 
-            int size_array = Getting_number("количество трехзначных чисел");
+            int[] array = Fill_array("трехзначных", 100,1000);
 
-            int[] array = new int[size_array];
+            Read_array(array);
 
-            Random random = new Random();
-
-            for (int i = 0; i < size_array; i++) 
+            for (int i = 0;i < array.Length; i++)
             {
-                array[i] = random.Next(100,1000);
+                if (array[i] %2 == 0)
+                {
+                    evenCount++;
+                }
             }
 
-            for (int i = 0; i < size_array; i++)
+            Center_window($"Количество четных чисел: {evenCount}");
+
+            Console.WriteLine();
+        }
+
+        private static void Read_array(int[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.Write($"{array[i]} ");
             }
@@ -58,17 +93,37 @@ namespace Homework_4
 
             Console.Clear();
 
-            for (int i = 0;i < size_array; i++)
+        }
+
+        private static int[] Fill_array(string pattern,int head, int tail)
+        {
+            int size_array = Getting_size_array(pattern);
+
+            int[] array = new int[size_array];
+
+            Random random = new Random();
+
+            for (int i = 0; i < size_array; i++)
             {
-                if (array[i] %2 == 0)
-                {
-                    evenCount++;
-                }
+                array[i] = random.Next(head, tail);
             }
 
-            Center_window($"Количество четных чисел равно: {evenCount}");
+            return array;
+        }
 
-            Console.WriteLine();
+        private static int[] Fill_array( int head, int tail)
+        {
+
+            int[] array = new int[Getting_size_array("")];
+
+            Random random = new Random();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = random.Next(head, tail);
+            }
+
+            return array;
         }
 
         private static void NumberRequest()
@@ -102,11 +157,11 @@ namespace Homework_4
             }
         }
         
-        static int Getting_number(string pattern)
+        static int Getting_size_array(string pattern)
         {
             while (true)
             {
-                Center_window($"Введите {pattern}: ");
+                Center_window($"Введите количество {pattern} чисел: ");
 
                 string UserInput = Console.ReadLine(); // запрос числа от пользователя
 
